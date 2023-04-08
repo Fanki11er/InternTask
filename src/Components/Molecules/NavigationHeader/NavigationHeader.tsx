@@ -1,36 +1,18 @@
-import { AppBar, Button, Grid, makeStyles } from "@mui/material";
+import { AppBar, Grid } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
-import { NavLink } from "react-router-dom";
 import { paths } from "../../../Router/paths";
-import { styled } from "@mui/styles";
 import theme from "../../../Theme/theme";
-
-const StyledNavLink = styled(NavLink)(() => ({
-  "&.active": {
-    backgroundColor: theme.palette.primary.light,
-  },
-  width: 180,
-  color: theme.palette.primary.contrastText,
-}));
+import LinkButton from "../LinkButton/LinkButton";
 
 const NavigationHeader = () => {
   const { main, views } = paths;
 
   return (
-    <AppBar color="secondary">
+    <AppBar color="secondary" sx={{ height: "fit-content", padding: "10px" }}>
       <Toolbar>
-        <Grid container columnGap={20} justifyContent={"center"} xs>
-          <Button
-            component={StyledNavLink}
-            to={main}
-            variant="contained"
-            size={"small"}
-          >
-            Main
-          </Button>
-          <Button component={StyledNavLink} to={views} variant="contained">
-            Views
-          </Button>
+        <Grid container columnGap={5} justifyContent={"center"} rowGap={2}>
+          <LinkButton to={main} label={"Main"} theme={theme} />
+          <LinkButton to={views} label={"View"} theme={theme} />
         </Grid>
       </Toolbar>
     </AppBar>
