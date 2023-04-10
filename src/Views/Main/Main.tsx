@@ -1,12 +1,12 @@
-import { Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import Form from "../../Components/Molecules/Form/Form";
 import DataTable from "../../Components/Organisms/Table/DataTable";
 import { HeadCell, Row } from "../../Types/TableTypes";
+import { v4 as uuidv4 } from "uuid";
 
 const headCells: readonly HeadCell[] = [
   {
     id: "name",
-    numeric: false,
     label: "Imię",
     minWidth: 170,
   },
@@ -31,18 +31,22 @@ const headCells: readonly HeadCell[] = [
 
 const testData: Row[] = [
   {
+    id: uuidv4(),
     name: "Krzysztof",
     age: 40,
     dateOfBirth: "17-10-1983",
     curriculumVitae: " sgxsvscsca cshacjaja sacavscvasc",
   },
   {
+    id: uuidv4(),
     name: "Krzysztof",
     age: 40,
     dateOfBirth: "17-10-1983",
     curriculumVitae: " sgxsvscsca cshacjaja sacavscvasc",
   },
+
   {
+    id: uuidv4(),
     name: "Krzysztof",
     age: 40,
     dateOfBirth: "17-10-1983",

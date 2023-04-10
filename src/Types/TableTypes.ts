@@ -7,6 +7,7 @@ export interface HeadCell {
 }
 
 export interface Row {
+  id: string;
   name: string;
   age: number;
   dateOfBirth: string;

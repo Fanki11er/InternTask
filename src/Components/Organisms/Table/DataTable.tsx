@@ -57,12 +57,33 @@ const DataTable = (props: Props) => {
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("Hmmm");
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.name);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
+  };
+
+  const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected: readonly string[] = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+
+    setSelected(newSelected);
   };
 
   return (
@@ -75,25 +96,33 @@ const DataTable = (props: Props) => {
           headCells={headCells}
         />
         <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row, index) => {
-            const isItemSelected = isSelected(row.name);
-            const labelId = `enhanced-table-checkbox-${index}`;
+          {visibleRows.map((row, index) => {
+            const isItemSelected = isSelected(row.id);
+            const labelId = `data-table-checkbox-${index}`;
             return (
-              <TableRow key={row.name} sx={{ minWidth: headCells[1].minWidth }}>
-                <Checkbox
-                  color="primary"
-                  checked={isItemSelected}
-                  inputProps={{
-                    "aria-labelledby": labelId,
-                  }}
-                />
+              <TableRow
+                hover
+                onClick={(event) => handleClick(event, row.id)}
+                role="checkbox"
+                aria-checked={isItemSelected}
+                tabIndex={-1}
+                key={row.id}
+                selected={isItemSelected}
+                sx={{ cursor: "pointer" }}
+              >
+                <TableCell sx={{ width: 50 }}>
+                  <Checkbox
+                    color="primary"
+                    checked={isItemSelected}
+                    inputProps={{
+                      "aria-labelledby": labelId,
+                    }}
+                  />
+                </TableCell>
 
                 <TableCell
-                  component="th"
-                  scope="row"
+                  //component="th"
+                  //scope="row"
                   sx={{ minWidth: headCells[0].minWidth }}
                 >
                   {row.name}
