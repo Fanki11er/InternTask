@@ -4,7 +4,7 @@ import DataTable from "../../Components/Organisms/Table/DataTable";
 import { HeadCell, Row } from "../../Types/TableTypes";
 import { v4 as uuidv4 } from "uuid";
 
-const headCells: readonly HeadCell[] = [
+const headCells: HeadCell[] = [
   {
     id: "name",
     label: "Imię",
@@ -25,7 +25,8 @@ const headCells: readonly HeadCell[] = [
   {
     id: "curriculumVitae",
     label: "Życiorys",
-    minWidth: 200,
+    //minWidth: 200,
+    ellipsis: true,
   },
 ];
 
@@ -50,7 +51,7 @@ const testData: Row[] = [
     name: "Krzysztof",
     age: 40,
     dateOfBirth: "17-10-1983",
-    curriculumVitae: " sgxsvscsca cshacjaja sacavscvasc",
+    curriculumVitae: " sgxsvscsca cshacjaja sacavscvasc SGXSGX BYYXGSY",
   },
 ];
 

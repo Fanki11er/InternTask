@@ -7,24 +7,23 @@ import {
   TableFooter,
   TablePagination,
   Paper,
-  TableHead,
   Checkbox,
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import { useState, useEffect } from "react";
-import { HeadCell, Row } from "../../../Types/TableTypes";
+import { CellOptions, HeadCell, Row } from "../../../Types/TableTypes";
 import TableHeadRow from "../../Molecules/TableHeadRow/TableHeadRow";
 
 interface Props {
   rows: Row[];
-  headCells: readonly HeadCell[];
+  headCells: HeadCell[];
 }
 
 const DataTable = (props: Props) => {
   const { rows, headCells } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [selected, setSelected] = useState<readonly string[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
   const [visibleRows, setVisibleRows] = useState<Row[]>([]);
 
   useEffect(() => {
@@ -54,12 +53,11 @@ const DataTable = (props: Props) => {
     setPage(0);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("Hmmm");
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = rows.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -68,7 +66,7 @@ const DataTable = (props: Props) => {
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
     const selectedIndex = selected.indexOf(id);
-    let newSelected: readonly string[] = [];
+    let newSelected: string[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id);
@@ -84,6 +82,33 @@ const DataTable = (props: Props) => {
     }
 
     setSelected(newSelected);
+  };
+
+  const renderCells = (row: Row, cellOptions: CellOptions[]) => {
+    const values = Object.values(row).splice(1);
+    return cellOptions.map((option, index) => {
+      return index < values.length ? (
+        <TableCell
+          sx={{
+            minWidth: option.minWidth,
+            textOverflow: option.ellipsis ? "ellipsis" : "ellipsis",
+          }}
+          align={option.numeric ? "right" : "left"}
+          key={`cell-${index}-${row.id}`}
+        >
+          {values[index]}
+        </TableCell>
+      ) : null;
+    });
+  };
+
+  const mapRowOptions = (headCells: HeadCell[]) => {
+    return headCells.map((cell) => {
+      return {
+        numeric: cell.numeric,
+        minWidth: cell.minWidth!,
+      };
+    });
   };
 
   return (
@@ -108,7 +133,9 @@ const DataTable = (props: Props) => {
                 tabIndex={-1}
                 key={row.id}
                 selected={isItemSelected}
-                sx={{ cursor: "pointer" }}
+                sx={{
+                  cursor: "pointer",
+                }}
               >
                 <TableCell sx={{ width: 50 }}>
                   <Checkbox
@@ -120,7 +147,46 @@ const DataTable = (props: Props) => {
                   />
                 </TableCell>
 
-                <TableCell
+                {renderCells(row, mapRowOptions(headCells))}
+              </TableRow>
+            );
+          })}
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 53 * emptyRows }}>
+              <TableCell colSpan={6} />
+            </TableRow>
+          )}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[10, 20, 50, { label: "All", value: -1 }]}
+              colSpan={6}
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: {
+                  "aria-label": "rows per page",
+                },
+                native: true,
+              }}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </TableContainer>
+  );
+};
+
+export default DataTable;
+
+/*
+
+<TableCell
                   //component="th"
                   //scope="row"
                   sx={{ minWidth: headCells[0].minWidth }}
@@ -144,42 +210,7 @@ const DataTable = (props: Props) => {
                   align="right"
                 >
                   {row.curriculumVitae}
-                </TableCell>
-              </TableRow>
-            );
-          })}
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[10, 20, 50, { label: "All", value: -1 }]}
-              colSpan={3}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: {
-                  "aria-label": "rows per page",
-                },
-                native: true,
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
-  );
-};
-
-export default DataTable;
+                </TableCell>*/
 
 /*
  <TableCell padding="checkbox">

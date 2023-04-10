@@ -3,6 +3,7 @@ export interface HeadCell {
   label: string;
   minWidth?: number;
   numeric?: boolean;
+  ellipsis?: boolean;
   //format?: (value: number) => string;
 }
 
@@ -13,3 +14,5 @@ export interface Row {
   dateOfBirth: string;
   curriculumVitae: string;
 }
+
+export type CellOptions = Pick<HeadCell, "numeric" | "minWidth" | "ellipsis">;
