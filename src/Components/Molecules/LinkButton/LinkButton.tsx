@@ -1,10 +1,9 @@
-import { Button, ButtonBaseProps, Theme } from "@mui/material";
+import { Button, ButtonBaseProps, Theme, useTheme } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
 interface Props extends ButtonBaseProps {
   label: string;
   to: string;
-  theme: Theme;
 }
 
 /*const StyledNavLink = styled(NavLink)((theme: any) => ({
@@ -16,7 +15,8 @@ interface Props extends ButtonBaseProps {
 }));*/
 
 const LinkButton = (props: Props) => {
-  const { label, to, theme } = props;
+  const { label, to } = props;
+  const theme = useTheme();
 
   return (
     <Button
