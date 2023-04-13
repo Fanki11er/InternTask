@@ -1,4 +1,5 @@
 import { IconButton, Toolbar, Tooltip, Typography, alpha } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface TableToolbarProps {
   numSelected: number;
@@ -31,8 +32,8 @@ const TableToolbar = (props: TableToolbarProps) => {
       </Typography>
 
       {numSelected > 0 && (
-        <Tooltip title="Delete">
-          <IconButton>{/*<DeleteIcon />*/}</IconButton>
+        <Tooltip title="Usuń">
+          {<IconButton>{<DeleteIcon />}</IconButton>}
         </Tooltip>
       )}
     </Toolbar>

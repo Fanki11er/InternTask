@@ -10,12 +10,16 @@ import {
   Checkbox,
   Typography,
   Box,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import { useState, useEffect } from "react";
 import { CellOptions, HeadCell, Row } from "../../../Types/TableTypes";
 import TableHeadRow from "../../Molecules/TableHeadRow/TableHeadRow";
 import TableToolbar from "../../Molecules/TableToolbar/TableToolbar";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 
 interface Props {
   rows: Row[];
@@ -164,6 +168,16 @@ const DataTable = (props: Props) => {
                 </TableCell>
 
                 {renderCells(row, mapRowOptions(headCells))}
+                {
+                  <TableCell sx={{ width: 100, padding: 1 }} align={"right"}>
+                    <Tooltip title="Edytuj">
+                      <IconButton>{<EditNoteIcon />}</IconButton>
+                    </Tooltip>
+                    <Tooltip title="Usuń">
+                      <IconButton>{<DeleteIcon />}</IconButton>
+                    </Tooltip>
+                  </TableCell>
+                }
               </TableRow>
             );
           })}

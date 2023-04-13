@@ -21,10 +21,9 @@ ReactDOM.render(
   rootElement
 );
 
-// Todo: Ellipsis for table
 // Todo: Action column for table
-// Todo: Create redux
 // Todo: Form logic
+// Todo: Create redux
 // Todo: Form validation in yup
 // Todo: Add item
 // Todo: Remove item

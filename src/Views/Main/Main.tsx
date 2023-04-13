@@ -28,6 +28,11 @@ const headCells: HeadCell[] = [
     //minWidth: 200,
     ellipsis: true,
   },
+  {
+    id: "actions",
+    label: "Akcje",
+    //minWidth: 200,
+  },
 ];
 
 const testData: Row[] = [
