@@ -21,16 +21,15 @@ const TableToolbar = (props: TableToolbarProps) => {
         }),
       }}
     >
-      {numSelected > 0 && (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      )}
+      <Typography
+        sx={{ flex: "1 1 100%" }}
+        color="inherit"
+        variant="subtitle1"
+        component="div"
+      >
+        {numSelected} wybranych
+      </Typography>
+
       {numSelected > 0 && (
         <Tooltip title="Delete">
           <IconButton>{/*<DeleteIcon />*/}</IconButton>

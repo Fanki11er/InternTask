@@ -8,11 +8,14 @@ import {
   TablePagination,
   Paper,
   Checkbox,
+  Typography,
+  Box,
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import { useState, useEffect } from "react";
 import { CellOptions, HeadCell, Row } from "../../../Types/TableTypes";
 import TableHeadRow from "../../Molecules/TableHeadRow/TableHeadRow";
+import TableToolbar from "../../Molecules/TableToolbar/TableToolbar";
 
 interface Props {
   rows: Row[];
@@ -91,12 +94,24 @@ const DataTable = (props: Props) => {
         <TableCell
           sx={{
             minWidth: option.minWidth,
-            textOverflow: option.ellipsis ? "ellipsis" : "ellipsis",
+            whiteSpace: "nowrap",
+            maxWidth: 300,
           }}
           align={option.numeric ? "right" : "left"}
           key={`cell-${index}-${row.id}`}
         >
-          {values[index]}
+          {option.ellipsis ? (
+            <Typography
+              sx={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+              }}
+            >
+              {values[index]}
+            </Typography>
+          ) : (
+            values[index]
+          )}
         </TableCell>
       ) : null;
     });
@@ -107,6 +122,7 @@ const DataTable = (props: Props) => {
       return {
         numeric: cell.numeric,
         minWidth: cell.minWidth!,
+        ellipsis: cell.ellipsis,
       };
     });
   };
@@ -178,138 +194,9 @@ const DataTable = (props: Props) => {
           </TableRow>
         </TableFooter>
       </Table>
+      <TableToolbar numSelected={selected.length} />
     </TableContainer>
   );
 };
 
 export default DataTable;
-
-/*
-
-<TableCell
-                  //component="th"
-                  //scope="row"
-                  sx={{ minWidth: headCells[0].minWidth }}
-                >
-                  {row.name}
-                </TableCell>
-                <TableCell
-                  sx={{ minWidth: headCells[1].minWidth }}
-                  align="right"
-                >
-                  {row.age}
-                </TableCell>
-                <TableCell
-                  sx={{ minWidth: headCells[2].minWidth }}
-                  align="right"
-                >
-                  {row.dateOfBirth}
-                </TableCell>
-                <TableCell
-                  sx={{ minWidth: headCells[3].minWidth }}
-                  align="right"
-                >
-                  {row.curriculumVitae}
-                </TableCell>*/
-
-/*
- <TableCell padding="checkbox">
-              <Checkbox
-                color="primary"
-                indeterminate={numSelected > 0 && numSelected < rowCount}
-                checked={rowCount > 0 && numSelected === rowCount}
-                onChange={onSelectAllClick}
-                inputProps={{
-                  "aria-label": "select all desserts",
-                }}
-              />
-            </TableCell>
-*/
-
-/*
- interface TablePaginationActionsProps {
-        count: number;
-        page: number;
-        rowsPerPage: number;
-        onPageChange: (
-          event: React.MouseEvent<HTMLButtonElement>,
-          newPage: number,
-        ) => void;
-      }
-      
-      function TablePaginationActions(props: TablePaginationActionsProps) {
-        const theme = useTheme();
-        const { count, page, rowsPerPage, onPageChange } = props;
-      
-        const handleFirstPageButtonClick = (
-          event: React.MouseEvent<HTMLButtonElement>,
-        ) => {
-          onPageChange(event, 0);
-        };
-      
-        const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-          onPageChange(event, page - 1);
-        };
-      
-        const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-          onPageChange(event, page + 1);
-        };
-      
-        const handleLastPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-          onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-        };
-      
-        return (
-          <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-            <IconButton
-              onClick={handleFirstPageButtonClick}
-              disabled={page === 0}
-              aria-label="first page"
-            >
-              {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-            </IconButton>
-            <IconButton
-              onClick={handleBackButtonClick}
-              disabled={page === 0}
-              aria-label="previous page"
-            >
-              {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-            </IconButton>
-            <IconButton
-              onClick={handleNextButtonClick}
-              disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-              aria-label="next page"
-            >
-              {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-            </IconButton>
-            <IconButton
-              onClick={handleLastPageButtonClick}
-              disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-              aria-label="last page"
-            >
-              {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-            </IconButton>
-          </Box>
-        );
-      }
-*/
-
-/*function createData(name: string, calories: number, fat: number) {
-        return { name, calories, fat };
-      }
-      
-      const rows = [
-        createData('Cupcake', 305, 3.7),
-        createData('Donut', 452, 25.0),
-        createData('Eclair', 262, 16.0),
-        createData('Frozen yoghurt', 159, 6.0),
-        createData('Gingerbread', 356, 16.0),
-        createData('Honeycomb', 408, 3.2),
-        createData('Ice cream sandwich', 237, 9.0),
-        createData('Jelly Bean', 375, 0.0),
-        createData('KitKat', 518, 26.0),
-        createData('Lollipop', 392, 0.2),
-        createData('Marshmallow', 318, 0),
-        createData('Nougat', 360, 19.0),
-        createData('Oreo', 437, 18.0),
-      ].sort((a, b) => (a.calories < b.calories ? -1 : 1));*/

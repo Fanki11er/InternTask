@@ -20,3 +20,15 @@ ReactDOM.render(
   </React.StrictMode>,
   rootElement
 );
+
+// Todo: Ellipsis for table
+// Todo: Action column for table
+// Todo: Create redux
+// Todo: Form logic
+// Todo: Form validation in yup
+// Todo: Add item
+// Todo: Remove item
+// Todo: Edit item
+// Todo: 404 page
+// Todo: Add language change logic
+// Todo: Net, four reusable components in row
