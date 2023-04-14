@@ -3,9 +3,13 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import theme from "../../../Theme/theme";
 import FormInput from "../FormInput/FormInput";
-import { useForm, Controller, FieldErrors } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useAppDispatch } from "../../../Hooks/useDispatch";
+import { Row } from "../../../Types/TableTypes";
+import { v4 as uuidv4 } from "uuid";
+import { addRow } from "../../../Features/Row/RowSlice";
 
 const FIRST_NAME_FIELD = "firstName";
 const AGE_FIELD = "age";
@@ -67,10 +71,20 @@ const Form = () => {
     resolver: yupResolver(schema),
   });
 
+  const dispatch = useAppDispatch();
+
   const onSubmit = (data: FormData) => {
-    console.log(data);
-    const test = new Date(data[DATE_OF_BIRTH].toString());
-    console.log(test.toLocaleString());
+    const row = {
+      id: uuidv4(),
+      firstName: data[FIRST_NAME_FIELD],
+      age: data[AGE_FIELD],
+      dateOfBirth: new Date(
+        data[DATE_OF_BIRTH].toString()
+      ).toLocaleDateString(),
+      curriculumVitae: data[CURRICULUM_VITAE_FIELD],
+    } as Row;
+
+    dispatch(addRow(row));
   };
 
   return (

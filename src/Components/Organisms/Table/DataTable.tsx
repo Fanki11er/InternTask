@@ -20,18 +20,23 @@ import TableHeadRow from "../../Molecules/TableHeadRow/TableHeadRow";
 import TableToolbar from "../../Molecules/TableToolbar/TableToolbar";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import { useAppSelector } from "../../../Hooks/useSelector";
+import { useAppDispatch } from "../../../Hooks/useDispatch";
+import { removeRow } from "../../../Features/Row/RowSlice";
 
 interface Props {
-  rows: Row[];
   headCells: HeadCell[];
 }
 
 const DataTable = (props: Props) => {
-  const { rows, headCells } = props;
+  const { headCells } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selected, setSelected] = useState<string[]>([]);
   const [visibleRows, setVisibleRows] = useState<Row[]>([]);
+
+  const rows = useAppSelector((state) => state.rows.rows);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const rowsSection =
@@ -40,7 +45,7 @@ const DataTable = (props: Props) => {
         : rows;
 
     setVisibleRows(rowsSection);
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, rows]);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -69,6 +74,15 @@ const DataTable = (props: Props) => {
       return;
     }
     setSelected([]);
+  };
+
+  const updateSelections = (ids: string[]) => {
+    const actualSelected = rows
+      .filter((item) => {
+        return ids.indexOf(item.id) === -1;
+      })
+      .map((item) => item.id);
+    setSelected(actualSelected);
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
@@ -174,7 +188,15 @@ const DataTable = (props: Props) => {
                       <IconButton>{<EditNoteIcon />}</IconButton>
                     </Tooltip>
                     <Tooltip title="Usuń">
-                      <IconButton>{<DeleteIcon />}</IconButton>
+                      <IconButton
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          dispatch(removeRow(row.id));
+                          updateSelections([row.id]);
+                        }}
+                      >
+                        {<DeleteIcon />}
+                      </IconButton>
                     </Tooltip>
                   </TableCell>
                 }
@@ -190,7 +212,7 @@ const DataTable = (props: Props) => {
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[10, 20, 50, { label: "All", value: -1 }]}
+              rowsPerPageOptions={[10, 20, 50]}
               colSpan={6}
               count={rows.length}
               rowsPerPage={rowsPerPage}
@@ -208,7 +230,7 @@ const DataTable = (props: Props) => {
           </TableRow>
         </TableFooter>
       </Table>
-      <TableToolbar numSelected={selected.length} />
+      <TableToolbar numSelectedRows={selected.length} selectedRows={selected} />
     </TableContainer>
   );
 };

@@ -6,6 +6,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import theme from "./Theme/theme";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { Provider } from "react-redux";
+import { store } from "./Store/store";
 
 const rootElement = document.getElementById("root");
 
@@ -14,15 +16,16 @@ ReactDOM.render(
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <RouterProvider router={router} />
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
       </ThemeProvider>
     </LocalizationProvider>
   </React.StrictMode>,
   rootElement
 );
 
-// Todo: Create redux
-// Todo: Add item
+// Todo: Move table state to redux
 // Todo: Remove item
 // Todo: Edit item
 // Todo: 404 page

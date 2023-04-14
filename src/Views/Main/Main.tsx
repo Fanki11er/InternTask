@@ -3,6 +3,7 @@ import Form from "../../Components/Molecules/Form/Form";
 import DataTable from "../../Components/Organisms/Table/DataTable";
 import { HeadCell, Row } from "../../Types/TableTypes";
 import { v4 as uuidv4 } from "uuid";
+import { useAppSelector } from "../../Hooks/useSelector";
 
 const headCells: HeadCell[] = [
   {
@@ -35,7 +36,7 @@ const headCells: HeadCell[] = [
   },
 ];
 
-const testData: Row[] = [
+/*const testData: Row[] = [
   {
     id: uuidv4(),
     name: "Krzysztof",
@@ -58,13 +59,13 @@ const testData: Row[] = [
     dateOfBirth: "17-10-1983",
     curriculumVitae: " sgxsvscsca cshacjaja sacavscvasc SGXSGX BYYXGSY",
   },
-];
+];*/
 
 const Main = () => {
   return (
     <Grid container direction={"column"} alignItems={"center"}>
       <Grid item xs={12} sm={6} md={4} minWidth={300} maxWidth={400}>
-        <DataTable rows={testData} headCells={headCells} />
+        <DataTable headCells={headCells} />
       </Grid>
       <Grid item xs={12} sm={6} md={4} minWidth={300} maxWidth={400}>
         <Form />

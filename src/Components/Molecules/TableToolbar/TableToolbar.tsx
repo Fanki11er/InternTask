@@ -1,19 +1,24 @@
 import { IconButton, Toolbar, Tooltip, Typography, alpha } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useAppDispatch } from "../../../Hooks/useDispatch";
+import { removeManyRows } from "../../../Features/Row/RowSlice";
 
 interface TableToolbarProps {
-  numSelected: number;
+  numSelectedRows: number;
+  selectedRows: string[];
 }
 
 const TableToolbar = (props: TableToolbarProps) => {
-  const { numSelected } = props;
+  const { numSelectedRows, selectedRows } = props;
+
+  const dispatch = useAppDispatch();
 
   return (
     <Toolbar
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
+        ...(numSelectedRows > 0 && {
           bgcolor: (theme) =>
             alpha(
               theme.palette.primary.main,
@@ -28,13 +33,16 @@ const TableToolbar = (props: TableToolbarProps) => {
         variant="subtitle1"
         component="div"
       >
-        {numSelected} wybranych
+        {numSelectedRows} wybranych
       </Typography>
 
-      {numSelected > 0 && (
+      {numSelectedRows > 0 && (
         <Tooltip title="Usuń" sx={{ width: 100 }}>
           {
-            <IconButton sx={{ alignSelf: "flex-end" }}>
+            <IconButton
+              sx={{ alignSelf: "flex-end" }}
+              onClick={() => dispatch(removeManyRows(selectedRows))}
+            >
               {<DeleteIcon />}
             </IconButton>
           }

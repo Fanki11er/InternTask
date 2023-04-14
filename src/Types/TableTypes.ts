@@ -9,7 +9,7 @@ export interface HeadCell {
 
 export interface Row {
   id: string;
-  name: string;
+  firstName: string;
   age: number;
   dateOfBirth: string;
   curriculumVitae: string;
