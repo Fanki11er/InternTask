@@ -32,8 +32,12 @@ const TableToolbar = (props: TableToolbarProps) => {
       </Typography>
 
       {numSelected > 0 && (
-        <Tooltip title="Usuń">
-          {<IconButton>{<DeleteIcon />}</IconButton>}
+        <Tooltip title="Usuń" sx={{ width: 100 }}>
+          {
+            <IconButton sx={{ alignSelf: "flex-end" }}>
+              {<DeleteIcon />}
+            </IconButton>
+          }
         </Tooltip>
       )}
     </Toolbar>
