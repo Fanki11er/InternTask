@@ -8,6 +8,8 @@ interface Props {
   type?: string;
   required?: boolean;
   multiline?: boolean;
+  error?: boolean;
+  helperText?: string;
 }
 
 const FormInput = React.forwardRef((props: Props, ref) => {

@@ -132,7 +132,7 @@ const DataTable = (props: Props) => {
   };
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ marginTop: 10 }}>
       <Table sx={{ minWidth: 500 }} aria-label="data table">
         <TableHeadRow
           numSelected={selected.length}

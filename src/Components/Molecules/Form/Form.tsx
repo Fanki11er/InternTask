@@ -3,7 +3,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import theme from "../../../Theme/theme";
 import FormInput from "../FormInput/FormInput";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, FieldErrors } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const FIRST_NAME_FIELD = "firstName";
 const AGE_FIELD = "age";
@@ -13,8 +15,8 @@ const DATE_OF_BIRTH = "dateOfBirth";
 interface FormData {
   [FIRST_NAME_FIELD]: string;
   [AGE_FIELD]: number;
-  [CURRICULUM_VITAE_FIELD]: string;
   [DATE_OF_BIRTH]: dayjs.Dayjs;
+  [CURRICULUM_VITAE_FIELD]: string;
 }
 
 const StyledForm = styled("form")(() => ({
@@ -26,6 +28,27 @@ const StyledForm = styled("form")(() => ({
 }));
 
 const YESTERDAY = dayjs().subtract(1, "day");
+
+const schema = yup
+  .object({
+    [FIRST_NAME_FIELD]: yup.string().required("Imię jest wymagane"),
+    [AGE_FIELD]: yup
+      .number()
+      .typeError("Wiek jest wymagany")
+      .positive("Wymagana liczba większa od 0")
+      .integer("Wymagana liczba całkowita")
+      .required("Wiek jest wymagany"),
+
+    [DATE_OF_BIRTH]: yup
+      .date()
+      .max(YESTERDAY, "Nie prawidłowa data")
+      .required("Data urodzenia jest wymagana"),
+    [CURRICULUM_VITAE_FIELD]: yup
+      .string()
+      .max(280, "Text moze zawierac maksymalnie 280 znaków")
+      .optional(),
+  })
+  .required();
 
 const Form = () => {
   const {
@@ -41,11 +64,13 @@ const Form = () => {
       [CURRICULUM_VITAE_FIELD]: "",
       [DATE_OF_BIRTH]: YESTERDAY,
     } as FormData,
+    resolver: yupResolver(schema),
   });
+
   const onSubmit = (data: FormData) => {
     console.log(data);
-    console.log("Sub");
-    console.log(data[DATE_OF_BIRTH].format("DD/MM/YYYY"));
+    const test = new Date(data[DATE_OF_BIRTH].toString());
+    console.log(test.toLocaleString());
   };
 
   return (
@@ -55,14 +80,33 @@ const Form = () => {
           control={control}
           name={FIRST_NAME_FIELD}
           render={({ field }) => (
-            <FormInput id={FIRST_NAME_FIELD} label="Imię" required {...field} />
+            <FormInput
+              id={FIRST_NAME_FIELD}
+              label="Imię"
+              required
+              error={!!errors[FIRST_NAME_FIELD]}
+              helperText={
+                errors[FIRST_NAME_FIELD]
+                  ? errors[FIRST_NAME_FIELD]?.message
+                  : ""
+              }
+              {...field}
+            />
           )}
         />
         <Controller
           control={control}
           name={AGE_FIELD}
           render={({ field }) => (
-            <FormInput id={AGE_FIELD} label="Wiek" required {...field} />
+            <FormInput
+              id={AGE_FIELD}
+              label="Wiek"
+              type={"number"}
+              required
+              {...field}
+              error={!!errors[AGE_FIELD]}
+              helperText={errors[AGE_FIELD] ? errors[AGE_FIELD]?.message : ""}
+            />
           )}
         />
         <Controller
@@ -73,6 +117,11 @@ const Form = () => {
               label="Data urodzenia"
               maxDate={YESTERDAY}
               sx={{ width: "100%" }}
+              slotProps={{
+                textField: {
+                  helperText: errors[DATE_OF_BIRTH]?.message,
+                },
+              }}
               {...field}
             />
           )}
@@ -86,6 +135,12 @@ const Form = () => {
               id={CURRICULUM_VITAE_FIELD}
               label="Życiorys"
               multiline
+              error={!!errors[CURRICULUM_VITAE_FIELD]}
+              helperText={
+                errors[CURRICULUM_VITAE_FIELD]
+                  ? errors[CURRICULUM_VITAE_FIELD]?.message
+                  : ""
+              }
               {...field}
             />
           )}
@@ -97,7 +152,7 @@ const Form = () => {
           sx={{ marginTop: "20px" }}
           size="large"
         >
-          Submit
+          Wyślij
         </Button>
       </Grid>
     </StyledForm>
