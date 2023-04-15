@@ -14,7 +14,7 @@ import {
   IconButton,
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { CellOptions, HeadCell, Row } from "../../../Types/TableTypes";
 import TableHeadRow from "../../Molecules/TableHeadRow/TableHeadRow";
 import TableToolbar from "../../Molecules/TableToolbar/TableToolbar";
@@ -22,7 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { useAppSelector } from "../../../Hooks/useSelector";
 import { useAppDispatch } from "../../../Hooks/useDispatch";
-import { removeRow } from "../../../Features/Row/RowSlice";
+import { removeRow, selectRowToEdit } from "../../../Features/Row/RowSlice";
 
 interface Props {
   headCells: HeadCell[];
@@ -84,6 +84,10 @@ const DataTable = (props: Props) => {
       .map((item) => item.id);
     setSelected(actualSelected);
   };
+
+  const handleResetAllSelections = useCallback(() => {
+    setSelected([]);
+  }, []);
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
     const selectedIndex = selected.indexOf(id);
@@ -185,7 +189,14 @@ const DataTable = (props: Props) => {
                 {
                   <TableCell sx={{ width: 100, padding: 1 }} align={"right"}>
                     <Tooltip title="Edytuj">
-                      <IconButton>{<EditNoteIcon />}</IconButton>
+                      <IconButton
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          dispatch(selectRowToEdit(row.id));
+                        }}
+                      >
+                        {<EditNoteIcon />}
+                      </IconButton>
                     </Tooltip>
                     <Tooltip title="Usuń">
                       <IconButton
@@ -230,7 +241,11 @@ const DataTable = (props: Props) => {
           </TableRow>
         </TableFooter>
       </Table>
-      <TableToolbar numSelectedRows={selected.length} selectedRows={selected} />
+      <TableToolbar
+        numSelectedRows={selected.length}
+        selectedRows={selected}
+        handleSelectedChange={handleResetAllSelections}
+      />
     </TableContainer>
   );
 };

@@ -6,10 +6,11 @@ import { removeManyRows } from "../../../Features/Row/RowSlice";
 interface TableToolbarProps {
   numSelectedRows: number;
   selectedRows: string[];
+  handleSelectedChange: () => void;
 }
 
 const TableToolbar = (props: TableToolbarProps) => {
-  const { numSelectedRows, selectedRows } = props;
+  const { numSelectedRows, selectedRows, handleSelectedChange } = props;
 
   const dispatch = useAppDispatch();
 
@@ -41,7 +42,10 @@ const TableToolbar = (props: TableToolbarProps) => {
           {
             <IconButton
               sx={{ alignSelf: "flex-end" }}
-              onClick={() => dispatch(removeManyRows(selectedRows))}
+              onClick={() => {
+                dispatch(removeManyRows(selectedRows));
+                handleSelectedChange();
+              }}
             >
               {<DeleteIcon />}
             </IconButton>

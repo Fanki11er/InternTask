@@ -9,7 +9,14 @@ import * as yup from "yup";
 import { useAppDispatch } from "../../../Hooks/useDispatch";
 import { Row } from "../../../Types/TableTypes";
 import { v4 as uuidv4 } from "uuid";
-import { addRow } from "../../../Features/Row/RowSlice";
+import {
+  addRow,
+  editRow,
+  selectRowToEdit,
+} from "../../../Features/Row/RowSlice";
+import { useAppSelector } from "../../../Hooks/useSelector";
+import { useEffect } from "react";
+import "dayjs/locale/es";
 
 const FIRST_NAME_FIELD = "firstName";
 const AGE_FIELD = "age";
@@ -22,6 +29,18 @@ interface FormData {
   [DATE_OF_BIRTH]: dayjs.Dayjs;
   [CURRICULUM_VITAE_FIELD]: string;
 }
+
+const convertToRow = (data: FormData, id: string = "") => {
+  const row = {
+    id: id || uuidv4(),
+    firstName: data[FIRST_NAME_FIELD],
+    age: data[AGE_FIELD],
+    dateOfBirth: new Date(data[DATE_OF_BIRTH].toString()).toLocaleDateString(),
+    curriculumVitae: data[CURRICULUM_VITAE_FIELD],
+  } as Row;
+
+  return row;
+};
 
 const StyledForm = styled("form")(() => ({
   backgroundColor: theme.palette.secondary.dark,
@@ -55,12 +74,14 @@ const schema = yup
   .required();
 
 const Form = () => {
+  const dataIdToEdit = useAppSelector((state) => state.rows.selectedRow);
+
   const {
-    register,
     handleSubmit,
-    watch,
     control,
     formState: { errors },
+    reset,
+    setValue,
   } = useForm({
     defaultValues: {
       [FIRST_NAME_FIELD]: "",
@@ -71,20 +92,50 @@ const Form = () => {
     resolver: yupResolver(schema),
   });
 
+  useEffect(() => {
+    handleFillFieldsWithDataToEdit();
+  }, [dataIdToEdit]);
+
   const dispatch = useAppDispatch();
 
-  const onSubmit = (data: FormData) => {
-    const row = {
-      id: uuidv4(),
-      firstName: data[FIRST_NAME_FIELD],
-      age: data[AGE_FIELD],
-      dateOfBirth: new Date(
-        data[DATE_OF_BIRTH].toString()
-      ).toLocaleDateString(),
-      curriculumVitae: data[CURRICULUM_VITAE_FIELD],
-    } as Row;
+  const handleFillFieldsWithDataToEdit = () => {
+    if (dataIdToEdit) {
+      setValue(FIRST_NAME_FIELD, dataIdToEdit.firstName);
+      setValue(AGE_FIELD, dataIdToEdit.age);
+      setValue(CURRICULUM_VITAE_FIELD, dataIdToEdit.curriculumVitae);
+      setValue(
+        DATE_OF_BIRTH,
+        dayjs(dayjs(dataIdToEdit.dateOfBirth).format("DD/MM/YYYY"))
+      );
+    } else {
+      reset();
+    }
+  };
+
+  const submitAddRow = (data: FormData) => {
+    const row = convertToRow(data);
 
     dispatch(addRow(row));
+  };
+
+  const submitEditRow = (data: FormData, id: string) => {
+    const row = convertToRow(data, id);
+
+    dispatch(editRow(row));
+  };
+
+  const onSubmit = (data: FormData) => {
+    if (!dataIdToEdit) {
+      submitAddRow(data);
+    } else {
+      submitEditRow(data, dataIdToEdit.id);
+    }
+    reset();
+  };
+
+  const handleFormReset = () => {
+    dispatch(selectRowToEdit(""));
+    reset();
   };
 
   return (
@@ -160,14 +211,26 @@ const Form = () => {
           )}
         />
 
-        <Button
-          variant="contained"
-          type="submit"
-          sx={{ marginTop: "20px" }}
-          size="large"
-        >
-          Wyślij
-        </Button>
+        <Grid container justifyContent={"space-between"}>
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{ marginTop: "20px" }}
+            size="large"
+          >
+            {dataIdToEdit ? "Edytuj" : "Wyślij"}
+          </Button>
+
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{ marginTop: "20px" }}
+            size="large"
+            onClick={handleFormReset}
+          >
+            {"Resetuj"}
+          </Button>
+        </Grid>
       </Grid>
     </StyledForm>
   );

@@ -25,7 +25,6 @@ ReactDOM.render(
   rootElement
 );
 
-// Todo: Move table state to redux
 // Todo: Remove item
 // Todo: Edit item
 // Todo: 404 page
