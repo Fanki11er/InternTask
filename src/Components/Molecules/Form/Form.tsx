@@ -17,6 +17,7 @@ import {
 import { useAppSelector } from "../../../Hooks/useSelector";
 import { useEffect } from "react";
 import "dayjs/locale/es";
+import { useTranslation } from "react-i18next";
 
 const FIRST_NAME_FIELD = "firstName";
 const AGE_FIELD = "age";
@@ -54,27 +55,26 @@ const YESTERDAY = dayjs().subtract(1, "day");
 
 const schema = yup
   .object({
-    [FIRST_NAME_FIELD]: yup.string().required("Imię jest wymagane"),
+    [FIRST_NAME_FIELD]: yup.string().required("requiredName"),
     [AGE_FIELD]: yup
       .number()
-      .typeError("Wiek jest wymagany")
-      .positive("Wymagana liczba większa od 0")
-      .integer("Wymagana liczba całkowita")
-      .required("Wiek jest wymagany"),
+      .typeError("requiredAge")
+      .moreThan(0, "requiredMoreThan")
+      .integer("requiredInteger")
+      .required("requiredAge"),
 
     [DATE_OF_BIRTH]: yup
       .date()
-      .max(YESTERDAY, "Nie prawidłowa data")
-      .required("Data urodzenia jest wymagana"),
-    [CURRICULUM_VITAE_FIELD]: yup
-      .string()
-      .max(280, "Text moze zawierac maksymalnie 280 znaków")
-      .optional(),
+      .max(YESTERDAY, "incorrectDate")
+      .required("requiredDate:"),
+    [CURRICULUM_VITAE_FIELD]: yup.string().max(280, "textTooLong").optional(),
   })
   .required();
 
 const Form = () => {
   const dataIdToEdit = useAppSelector((state) => state.rows.selectedRow);
+
+  const { t } = useTranslation();
 
   const {
     handleSubmit,
@@ -105,7 +105,7 @@ const Form = () => {
       setValue(CURRICULUM_VITAE_FIELD, dataIdToEdit.curriculumVitae);
       setValue(
         DATE_OF_BIRTH,
-        dayjs(dayjs(dataIdToEdit.dateOfBirth).format("DD/MM/YYYY"))
+        dayjs(dayjs(dataIdToEdit.dateOfBirth).format("MM/DD/YYYY"))
       );
     } else {
       reset();
@@ -147,12 +147,12 @@ const Form = () => {
           render={({ field }) => (
             <FormInput
               id={FIRST_NAME_FIELD}
-              label="Imię"
+              label={t("form:firstNameLabel")}
               required
               error={!!errors[FIRST_NAME_FIELD]}
               helperText={
                 errors[FIRST_NAME_FIELD]
-                  ? errors[FIRST_NAME_FIELD]?.message
+                  ? t(`form:errors.${errors[FIRST_NAME_FIELD].message}`)!
                   : ""
               }
               {...field}
@@ -165,12 +165,16 @@ const Form = () => {
           render={({ field }) => (
             <FormInput
               id={AGE_FIELD}
-              label="Wiek"
+              label={t("form:age")}
               type={"number"}
               required
               {...field}
               error={!!errors[AGE_FIELD]}
-              helperText={errors[AGE_FIELD] ? errors[AGE_FIELD]?.message : ""}
+              helperText={
+                errors[AGE_FIELD]
+                  ? t(`form:errors.${errors[AGE_FIELD].message}`)!
+                  : ""
+              }
             />
           )}
         />
@@ -179,12 +183,14 @@ const Form = () => {
           name={DATE_OF_BIRTH}
           render={({ field }) => (
             <DatePicker
-              label="Data urodzenia"
+              label={t("form:dateOfBirth")}
               maxDate={YESTERDAY}
               sx={{ width: "100%" }}
               slotProps={{
                 textField: {
-                  helperText: errors[DATE_OF_BIRTH]?.message,
+                  helperText: errors[DATE_OF_BIRTH]
+                    ? t(`form:errors.${errors[DATE_OF_BIRTH]?.message}`)!
+                    : "",
                 },
               }}
               {...field}
@@ -198,12 +204,12 @@ const Form = () => {
           render={({ field }) => (
             <FormInput
               id={CURRICULUM_VITAE_FIELD}
-              label="Życiorys"
+              label={t("form:curriculumVitae")}
               multiline
               error={!!errors[CURRICULUM_VITAE_FIELD]}
               helperText={
                 errors[CURRICULUM_VITAE_FIELD]
-                  ? errors[CURRICULUM_VITAE_FIELD]?.message
+                  ? t(`form:errors.${errors[CURRICULUM_VITAE_FIELD].message}`)!
                   : ""
               }
               {...field}
@@ -218,7 +224,7 @@ const Form = () => {
             sx={{ marginTop: "20px" }}
             size="large"
           >
-            {dataIdToEdit ? "Edytuj" : "Wyślij"}
+            {t(dataIdToEdit ? "form:editButton" : "form:sendButton")}
           </Button>
 
           <Button
@@ -228,7 +234,7 @@ const Form = () => {
             size="large"
             onClick={handleFormReset}
           >
-            {"Resetuj"}
+            {t("form:resetButton")}
           </Button>
         </Grid>
       </Grid>

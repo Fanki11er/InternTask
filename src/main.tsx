@@ -8,16 +8,19 @@ import theme from "./Theme/theme";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { Provider } from "react-redux";
 import { store } from "./Store/store";
+import i18n from "./I18n/i18n";
+import { I18nextProvider } from "react-i18next";
 
 const rootElement = document.getElementById("root");
-
 ReactDOM.render(
   <React.StrictMode>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Provider store={store}>
-          <RouterProvider router={router} />
+          <I18nextProvider i18n={i18n}>
+            <RouterProvider router={router} />
+          </I18nextProvider>
         </Provider>
       </ThemeProvider>
     </LocalizationProvider>
@@ -25,8 +28,7 @@ ReactDOM.render(
   rootElement
 );
 
-// Todo: Remove item
-// Todo: Edit item
-// Todo: 404 page
 // Todo: Add language change logic
+// Todo: Maybe change date library for luxon
+// Todo: 404 page
 // Todo: Net, four reusable components in row

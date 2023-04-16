@@ -7,6 +7,7 @@ import {
   SelectChangeEvent,
   SelectProps,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 interface Props extends SelectProps {
   label: string;
@@ -17,12 +18,15 @@ interface Props extends SelectProps {
 
 const LanguageSelect = (props: Props) => {
   const { label, labelId, id, options } = props;
-  const [language, setLanguage] = useState(
+  /*const [language, setLanguage] = useState(
     options.length ? options[0] : "None"
-  );
+  );*/
+
+  const { i18n } = useTranslation();
 
   const handleChange = useCallback((event: SelectChangeEvent) => {
-    setLanguage(event.target.value);
+    //setLanguage(event.target.value);
+    i18n.changeLanguage(event.target.value.toLowerCase());
   }, []);
 
   const renderMenuItems = useCallback((items: string[]) => {
@@ -41,7 +45,7 @@ const LanguageSelect = (props: Props) => {
       <Select
         labelId={labelId}
         id={id}
-        value={language}
+        value={i18n.resolvedLanguage.toUpperCase()}
         onChange={(e) => handleChange(e)}
       >
         {renderMenuItems(options)}
