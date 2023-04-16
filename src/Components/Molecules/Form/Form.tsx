@@ -36,7 +36,7 @@ const convertToRow = (data: FormData, id: string = "") => {
     id: id || uuidv4(),
     firstName: data[FIRST_NAME_FIELD],
     age: data[AGE_FIELD],
-    dateOfBirth: new Date(data[DATE_OF_BIRTH].toString()).toLocaleDateString(),
+    dateOfBirth: dayjs(data[DATE_OF_BIRTH]).format("MM / DD / YYYY"),
     curriculumVitae: data[CURRICULUM_VITAE_FIELD],
   } as Row;
 
@@ -103,10 +103,7 @@ const Form = () => {
       setValue(FIRST_NAME_FIELD, dataIdToEdit.firstName);
       setValue(AGE_FIELD, dataIdToEdit.age);
       setValue(CURRICULUM_VITAE_FIELD, dataIdToEdit.curriculumVitae);
-      setValue(
-        DATE_OF_BIRTH,
-        dayjs(dayjs(dataIdToEdit.dateOfBirth).format("MM/DD/YYYY"))
-      );
+      setValue(DATE_OF_BIRTH, dayjs(dataIdToEdit.dateOfBirth));
     } else {
       reset();
     }
@@ -221,7 +218,7 @@ const Form = () => {
           <Button
             variant="contained"
             type="submit"
-            sx={{ marginTop: "20px" }}
+            sx={{ marginTop: "20px", minWidth: 100 }}
             size="large"
           >
             {t(dataIdToEdit ? "form:editButton" : "form:sendButton")}
@@ -230,7 +227,7 @@ const Form = () => {
           <Button
             variant="contained"
             type="submit"
-            sx={{ marginTop: "20px" }}
+            sx={{ marginTop: "20px", minWidth: 100 }}
             size="large"
             onClick={handleFormReset}
           >
