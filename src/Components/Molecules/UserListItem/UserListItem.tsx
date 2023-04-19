@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { Row } from "../../../Types/TableTypes";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useTranslation } from "react-i18next";
 
 interface UserListItemProps {
   user: Row;
@@ -15,6 +16,8 @@ interface UserListItemProps {
 
 const UserListItem = (props: UserListItemProps) => {
   const { user } = props;
+
+  const { t } = useTranslation();
   return (
     <Card sx={{ padding: 5 }}>
       <Grid container rowGap={1}>
@@ -48,7 +51,13 @@ const UserListItem = (props: UserListItemProps) => {
               {user.dateOfBirth}
               <Typography color={"text.secondary"}>so is</Typography>
               {user.age}
-              <Typography color={"text.secondary"}>years old</Typography>
+              <Typography color={"text.secondary"}>
+                {t("userCard:years", {
+                  //postProcess: "interval",
+                  count: user.age,
+                  //ordinal: true,
+                })}
+              </Typography>
             </Grid>
           }
         />

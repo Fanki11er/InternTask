@@ -1,7 +1,11 @@
 import { Shape } from "../shape";
 
 export const shapePl: Shape = {
-  translation: {},
+  translation: {
+    counter_one: "Test",
+    counter_few: "Tests",
+    counter_three: "Dupa",
+  },
   form: {
     firstNameLabel: "Imię",
     age: "Wiek",
@@ -24,5 +28,15 @@ export const shapePl: Shape = {
     mainButton: "Główna",
     viewButton: "Widok",
     selectLabel: "Język",
+  },
+  userCard: {
+    years_one: "rok",
+    years_few: "lata",
+    years_many: "lat",
+    years_other: "lat",
+    birth: {
+      part1: "Born in",
+      part2: "so is",
+    },
   },
 };

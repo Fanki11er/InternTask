@@ -10,7 +10,7 @@ const testUsers: Row[] = [
   {
     id: "1111",
     firstName: "Krzysztof",
-    age: 40,
+    age: 4,
     dateOfBirth: "10/17/1983",
     curriculumVitae:
       " Lorrem ipsy hcsjaCB SHAJ vvsvvAV CBSBCABJCA CBSHACBASC CBHSACA CBSAC",
@@ -18,7 +18,23 @@ const testUsers: Row[] = [
   {
     id: "2111",
     firstName: "KrzysztofER",
-    age: 40,
+    age: 3,
+    dateOfBirth: "10/17/1983",
+    curriculumVitae:
+      " Lorrem ipsy hcsjaCB SHAJ vvsvvAV CBSBCABJCA CBSHACBASC CBHSACA CBSAC",
+  },
+  {
+    id: "2112",
+    firstName: "KrzysztofERT",
+    age: 22,
+    dateOfBirth: "10/17/1983",
+    curriculumVitae:
+      " Lorrem ipsy hcsjaCB SHAJ vvsvvAV CBSBCABJCA CBSHACBASC CBHSACA CBSAC",
+  },
+  {
+    id: "2114",
+    firstName: "KrzysztofERT",
+    age: 46,
     dateOfBirth: "10/17/1983",
     curriculumVitae:
       " Lorrem ipsy hcsjaCB SHAJ vvsvvAV CBSBCABJCA CBSHACBASC CBHSACA CBSAC",
