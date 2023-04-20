@@ -41,13 +41,13 @@ const TableToolbar = (props: TableToolbarProps) => {
         <Tooltip title="Usuń" sx={{ width: 100 }}>
           {
             <IconButton
-              sx={{ alignSelf: "flex-end" }}
+              sx={{ alignSelf: "center" }}
               onClick={() => {
                 dispatch(removeManyRows(selectedRows));
                 handleSelectedChange();
               }}
             >
-              {<DeleteIcon />}
+              {<DeleteIcon color="error" />}
             </IconButton>
           }
         </Tooltip>

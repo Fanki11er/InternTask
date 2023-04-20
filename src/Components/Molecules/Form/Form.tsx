@@ -44,7 +44,7 @@ const convertToRow = (data: FormData, id: string = "") => {
 };
 
 const StyledForm = styled("form")(() => ({
-  backgroundColor: theme.palette.secondary.dark,
+  backgroundColor: theme.palette.grey[900],
   padding: "50px  40px",
   borderRadius: 15,
   margin: "50px 0",
@@ -220,6 +220,7 @@ const Form = () => {
             type="submit"
             sx={{ marginTop: "20px", minWidth: 100 }}
             size="large"
+            color="success"
           >
             {t(dataIdToEdit ? "form:editButton" : "form:sendButton")}
           </Button>
@@ -230,6 +231,7 @@ const Form = () => {
             sx={{ marginTop: "20px", minWidth: 100 }}
             size="large"
             onClick={handleFormReset}
+            color="warning"
           >
             {t("form:resetButton")}
           </Button>

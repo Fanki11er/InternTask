@@ -195,7 +195,7 @@ const DataTable = (props: Props) => {
                           dispatch(selectRowToEdit(row.id));
                         }}
                       >
-                        {<EditNoteIcon />}
+                        {<EditNoteIcon color={"info"} />}
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Usuń">
@@ -206,7 +206,7 @@ const DataTable = (props: Props) => {
                           updateSelections([row.id]);
                         }}
                       >
-                        {<DeleteIcon />}
+                        {<DeleteIcon color="error" />}
                       </IconButton>
                     </Tooltip>
                   </TableCell>

@@ -1,5 +1,6 @@
 import { Button, ButtonBaseProps, Theme, useTheme } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { deepPurple } from "@mui/material/colors";
 
 interface Props extends ButtonBaseProps {
   label: string;
@@ -25,6 +26,7 @@ const LinkButton = (props: Props) => {
       variant="contained"
       sx={{
         minWidth: "80px",
+        bgcolor: deepPurple[600],
         "&active": {
           backgroundColor: theme.palette.primary.light,
         },
