@@ -47,15 +47,15 @@ const UserListItem = (props: UserListItemProps) => {
         <ListItemText
           primary={
             <Grid columns={3} columnGap={1} container>
-              <Typography color={"text.secondary"}>Born in</Typography>
+              <Typography color={"text.secondary"}>
+                {t("userCard:birth")}
+              </Typography>
               {user.dateOfBirth}
-              <Typography color={"text.secondary"}>so is</Typography>
+
               {user.age}
               <Typography color={"text.secondary"}>
                 {t("userCard:years", {
-                  //postProcess: "interval",
                   count: user.age,
-                  //ordinal: true,
                 })}
               </Typography>
             </Grid>

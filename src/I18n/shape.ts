@@ -28,9 +28,6 @@ export type Shape = {
     years_few: string;
     years_many: string;
     years_other: string;
-    birth: {
-      part1: string;
-      part2: string;
-    };
+    birth: string;
   };
 };
