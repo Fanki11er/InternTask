@@ -29,5 +29,6 @@ export type Shape = {
     years_many: string;
     years_other: string;
     birth: string;
+    age: string;
   };
 };

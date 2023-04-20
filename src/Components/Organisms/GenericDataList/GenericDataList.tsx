@@ -10,12 +10,12 @@ const GenericDataList = <T extends WithId>(props: ListProps<T>) => {
   const { items, renderItem } = props;
   return (
     <List>
-      <Grid container columns={4} width={"100%"} columnGap={5}>
+      <Grid container sm={1} md={12} spacing={2} marginTop={10}>
         {items.map((item) => {
           return (
-            <ListItem key={item.id} sx={{ width: 400 }}>
-              {renderItem(item)}
-            </ListItem>
+            <Grid item sm={1} md={4} lg={3}>
+              <ListItem key={item.id}>{renderItem(item)}</ListItem>
+            </Grid>
           );
         })}
       </Grid>

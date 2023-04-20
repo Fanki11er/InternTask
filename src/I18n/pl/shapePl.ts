@@ -34,6 +34,7 @@ export const shapePl: Shape = {
     years_few: "lata",
     years_many: "lat",
     years_other: "lat",
-    birth: "Urodzony",
+    birth: "Urodzony:",
+    age: "Wiek:",
   },
 };

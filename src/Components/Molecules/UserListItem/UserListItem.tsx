@@ -5,6 +5,7 @@ import {
   ListItem,
   ListItemText,
   Typography,
+  Box,
 } from "@mui/material";
 import { Row } from "../../../Types/TableTypes";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -19,55 +20,50 @@ const UserListItem = (props: UserListItemProps) => {
 
   const { t } = useTranslation();
   return (
-    <Card sx={{ padding: 5 }}>
-      <Grid container rowGap={1}>
-        <Grid
-          container
-          item
-          columns={2}
-          columnGap={2}
-          sx={{
-            justifyContent: "center",
-          }}
-        >
-          <Grid item>
-            <Icon
-              sx={{
-                width: 40,
-                height: 35,
-              }}
+    <Card
+      sx={{ padding: 5, rowGap: 2, display: "flex", flexDirection: "column" }}
+    >
+      <Box display={"grid"} gridTemplateColumns={"auto 1fr"} columnGap={1}>
+        <AccountCircleIcon fontSize={"large"} />
+        <ListItemText primary={user.firstName} />
+      </Box>
+
+      <ListItemText
+        primary={
+          <>
+            <Box
+              display={"grid"}
+              gridTemplateColumns={"auto 1fr"}
+              columnGap={1}
             >
-              <AccountCircleIcon fontSize={"large"} />
-            </Icon>
-          </Grid>
-          <Grid item>
-            <ListItemText primary={user.firstName} />
-          </Grid>
-        </Grid>
-        <ListItemText
-          primary={
-            <Grid columns={3} columnGap={1} container>
               <Typography color={"text.secondary"}>
                 {t("userCard:birth")}
               </Typography>
               {user.dateOfBirth}
-
+            </Box>
+            <Box
+              display={"grid"}
+              gridTemplateColumns={"auto auto 1fr"}
+              columnGap={1}
+            >
+              <Typography color={"text.secondary"}>
+                {t("userCard:age")}
+              </Typography>
               {user.age}
               <Typography color={"text.secondary"}>
                 {t("userCard:years", {
                   count: user.age,
                 })}
               </Typography>
-            </Grid>
-          }
-        />
-        <Grid item>
-          <ListItemText
-            primary={user.curriculumVitae}
-            sx={{ bgcolor: "#444", borderRadius: 2, padding: 2 }}
-          />
-        </Grid>
-      </Grid>
+            </Box>
+          </>
+        }
+      />
+
+      <ListItemText
+        primary={user.curriculumVitae}
+        sx={{ bgcolor: "#424242", borderRadius: 2, padding: 2 }}
+      />
     </Card>
   );
 };

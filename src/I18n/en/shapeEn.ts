@@ -30,6 +30,7 @@ export const shapeEn: Shape = {
     years_few: "years old",
     years_many: "years old",
     years_other: "years old",
-    birth: "Born in",
+    birth: "Born in:",
+    age: "Age: ",
   },
 };
