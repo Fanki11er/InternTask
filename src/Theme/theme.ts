@@ -7,14 +7,3 @@ const theme = createTheme({
 });
 
 export default theme;
-/*
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: `
-            body {
-              background: black;
-            }
-          `,
-    },
-  },
-*/

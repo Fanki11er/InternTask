@@ -1,12 +1,4 @@
-import {
-  Card,
-  Grid,
-  Icon,
-  ListItem,
-  ListItemText,
-  Typography,
-  Box,
-} from "@mui/material";
+import { Card, ListItemText, Typography, Box } from "@mui/material";
 import { Row } from "../../../Types/TableTypes";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useTranslation } from "react-i18next";
@@ -24,7 +16,7 @@ const UserListItem = (props: UserListItemProps) => {
       sx={{ padding: 5, rowGap: 2, display: "flex", flexDirection: "column" }}
     >
       <Box display={"grid"} gridTemplateColumns={"auto 1fr"} columnGap={1}>
-        <AccountCircleIcon fontSize={"large"} />
+        <AccountCircleIcon fontSize={"large"} color="info" />
         <ListItemText primary={user.firstName} />
       </Box>
 

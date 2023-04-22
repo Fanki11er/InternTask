@@ -4,7 +4,6 @@ export interface HeadCell {
   minWidth?: number;
   numeric?: boolean;
   ellipsis?: boolean;
-  //format?: (value: number) => string;
 }
 
 export interface Row {

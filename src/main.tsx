@@ -27,8 +27,3 @@ ReactDOM.render(
   </React.StrictMode>,
   rootElement
 );
-
-// Todo: Add language change logic
-// Todo: Maybe change date library for luxon
-// Todo: 404 page
-// Todo: Net, four reusable components in row
