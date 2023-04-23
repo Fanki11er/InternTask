@@ -32,5 +32,6 @@ export const shapeEn: Shape = {
     years_other: "years old",
     birth: "Born in:",
     age: "Age: ",
+    curriculumVitae: "Curriculum Vitae",
   },
 };

@@ -30,5 +30,6 @@ export type Shape = {
     years_other: string;
     birth: string;
     age: string;
+    curriculumVitae: string;
   };
 };

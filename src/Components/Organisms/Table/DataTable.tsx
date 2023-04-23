@@ -34,7 +34,7 @@ const DataTable = (props: Props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selected, setSelected] = useState<string[]>([]);
-  const [visibleRows, setVisibleRows] = useState<Row[]>([]);
+  const [visibleRows, setVisibleRows] = useState<User[]>([]);
 
   const rows = useAppSelector((state) => state.rows.rows);
   const dispatch = useAppDispatch();
