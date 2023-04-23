@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import { useState, useEffect, useCallback } from "react";
-import { CellOptions, HeadCell, Row } from "../../../Types/TableTypes";
+import { CellOptions, HeadCell } from "../../../Types/TableTypes";
 import TableHeadRow from "../../Molecules/TableHeadRow/TableHeadRow";
 import TableToolbar from "../../Molecules/TableToolbar/TableToolbar";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -23,6 +23,7 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import { useAppSelector } from "../../../Hooks/useSelector";
 import { useAppDispatch } from "../../../Hooks/useDispatch";
 import { removeRow, selectRowToEdit } from "../../../Features/Row/RowSlice";
+import { User } from "../../../Types/types";
 
 interface Props {
   headCells: HeadCell[];
@@ -109,7 +110,7 @@ const DataTable = (props: Props) => {
     setSelected(newSelected);
   };
 
-  const renderCells = (row: Row, cellOptions: CellOptions[]) => {
+  const renderCells = (row: User, cellOptions: CellOptions[]) => {
     const values = Object.values(row).splice(1);
     return cellOptions.map((option, index) => {
       return index < values.length ? (

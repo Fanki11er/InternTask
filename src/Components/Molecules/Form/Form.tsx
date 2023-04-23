@@ -1,13 +1,12 @@
 import { Button, Grid, styled } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import FormInput from "../FormInput/FormInput";
 import dayjs from "dayjs";
 import theme from "../../../Theme/theme";
-import FormInput from "../FormInput/FormInput";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAppDispatch } from "../../../Hooks/useDispatch";
-import { Row } from "../../../Types/TableTypes";
 import { v4 as uuidv4 } from "uuid";
 import {
   addRow,
@@ -15,9 +14,9 @@ import {
   selectRowToEdit,
 } from "../../../Features/Row/RowSlice";
 import { useAppSelector } from "../../../Hooks/useSelector";
-import { useEffect } from "react";
-import "dayjs/locale/es";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
+import { User } from "../../../Types/types";
 
 const FIRST_NAME_FIELD = "firstName";
 const AGE_FIELD = "age";
@@ -32,15 +31,15 @@ interface FormData {
 }
 
 const convertToRow = (data: FormData, id: string = "") => {
-  const row = {
+  const user = {
     id: id || uuidv4(),
     firstName: data[FIRST_NAME_FIELD],
     age: data[AGE_FIELD],
     dateOfBirth: dayjs(data[DATE_OF_BIRTH]).format("MM / DD / YYYY"),
     curriculumVitae: data[CURRICULUM_VITAE_FIELD],
-  } as Row;
+  } as User;
 
-  return row;
+  return user;
 };
 
 const StyledForm = styled("form")(() => ({

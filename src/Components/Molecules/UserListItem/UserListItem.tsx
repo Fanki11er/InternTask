@@ -1,10 +1,11 @@
 import { Card, ListItemText, Typography, Box } from "@mui/material";
-import { Row } from "../../../Types/TableTypes";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useTranslation } from "react-i18next";
+import { User } from "../../../Types/types";
+import theme from "../../../Theme/theme";
 
 interface UserListItemProps {
-  user: Row;
+  user: User;
 }
 
 const UserListItem = (props: UserListItemProps) => {
