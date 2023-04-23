@@ -1,15 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Row } from "../../Types/TableTypes";
+import { User } from "../../Types/types";
 
 export const rowSlice = createSlice({
   name: "rows",
   initialState: {
-    rows: [] as Row[],
-    selectedRow: null as null | Row,
+    rows: [] as User[],
+    selectedRow: null as null | User,
   },
 
   reducers: {
-    addRow: (state, action: PayloadAction<Row>) => {
+    addRow: (state, action: PayloadAction<User>) => {
       state.rows.push(action.payload);
     },
 
@@ -27,7 +27,7 @@ export const rowSlice = createSlice({
       state.selectedRow = null;
     },
 
-    editRow: (state, action: PayloadAction<Row>) => {
+    editRow: (state, action: PayloadAction<User>) => {
       const originalRowId = state.rows.findIndex((row) => {
         return row.id === action.payload.id;
       });

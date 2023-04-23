@@ -25,4 +25,13 @@ export const shapeEn: Shape = {
     viewButton: "View",
     selectLabel: "Language",
   },
+  userCard: {
+    years_one: "year old",
+    years_few: "years old",
+    years_many: "years old",
+    years_other: "years old",
+    birth: "Born in:",
+    age: "Age: ",
+    curriculumVitae: "Curriculum Vitae",
+  },
 };

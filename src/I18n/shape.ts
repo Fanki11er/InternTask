@@ -23,4 +23,13 @@ export type Shape = {
     viewButton: string;
     selectLabel: string;
   };
+  userCard: {
+    years_one: string;
+    years_few: string;
+    years_many: string;
+    years_other: string;
+    birth: string;
+    age: string;
+    curriculumVitae: string;
+  };
 };

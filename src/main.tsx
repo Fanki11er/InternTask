@@ -17,18 +17,13 @@ ReactDOM.render(
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
+        <I18nextProvider i18n={i18n}>
+          <Provider store={store}>
             <RouterProvider router={router} />
-          </I18nextProvider>
-        </Provider>
+          </Provider>
+        </I18nextProvider>
       </ThemeProvider>
     </LocalizationProvider>
   </React.StrictMode>,
   rootElement
 );
-
-// Todo: Add language change logic
-// Todo: Maybe change date library for luxon
-// Todo: 404 page
-// Todo: Net, four reusable components in row
