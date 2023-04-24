@@ -9,7 +9,7 @@ i18n
   .use(LanguageDetector)
 
   .init({
-    debug: true,
+    //debug: true,
     fallbackLng: "pl",
     interpolation: {
       escapeValue: false,

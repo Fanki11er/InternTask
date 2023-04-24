@@ -32,4 +32,7 @@ export type Shape = {
     age: string;
     curriculumVitae: string;
   };
+  notFound: {
+    notFound: string;
+  };
 };
