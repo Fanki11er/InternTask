@@ -38,4 +38,7 @@ export const shapePl: Shape = {
     age: "Wiek:",
     curriculumVitae: "Życiorys",
   },
+  notFound: {
+    notFound: "Strona nie znaleziona",
+  },
 };

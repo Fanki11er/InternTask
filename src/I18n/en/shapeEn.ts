@@ -34,4 +34,7 @@ export const shapeEn: Shape = {
     age: "Age: ",
     curriculumVitae: "Curriculum Vitae",
   },
+  notFound: {
+    notFound: "Sorry, page not found",
+  },
 };
