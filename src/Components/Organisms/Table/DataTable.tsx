@@ -70,17 +70,17 @@ const DataTable = (props: Props) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
+      const newSelected = visibleRows.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
   };
 
-  const updateSelections = (ids: string[]) => {
+  const updateSelections = () => {
     const actualSelected = rows
-      .filter((item) => {
-        return ids.indexOf(item.id) === -1;
+      .filter((row) => {
+        return isSelected(row.id);
       })
       .map((item) => item.id);
     setSelected(actualSelected);
@@ -204,7 +204,7 @@ const DataTable = (props: Props) => {
                         onClick={(event) => {
                           event.stopPropagation();
                           dispatch(removeRow(row.id));
-                          updateSelections([row.id]);
+                          updateSelections();
                         }}
                       >
                         {<DeleteIcon color="error" />}
