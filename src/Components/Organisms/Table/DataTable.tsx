@@ -9,7 +9,6 @@ import {
   Paper,
   Checkbox,
   Typography,
-  Box,
   Tooltip,
   IconButton,
 } from "@mui/material";
@@ -47,6 +46,12 @@ const DataTable = (props: Props) => {
 
     setVisibleRows(rowsSection);
   }, [page, rowsPerPage, rows]);
+
+  useEffect(() => {
+    if (visibleRows.length === 0 && page > 0) {
+      setPage((page) => page - 1);
+    }
+  }, [visibleRows]);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
