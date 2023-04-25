@@ -15,6 +15,7 @@ export const shapeEn: Shape = {
       requiredAge: "Age is required",
       requiredInteger: "Number must be an integer",
       requiredMoreThan: "Number must be more than 0",
+      requiredLessThan: "Number must be less than 120",
       requiredDate: "Date of birth is required",
       incorrectDate: "Incorrect date",
       textTooLong: "Text must be shorter than 280 signs",

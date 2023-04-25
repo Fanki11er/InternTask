@@ -50,6 +50,7 @@ const schema = yup
       .number()
       .typeError("requiredAge")
       .moreThan(0, "requiredMoreThan")
+      .lessThan(120, "requiredLessThan")
       .integer("requiredInteger")
       .required("requiredAge"),
 
