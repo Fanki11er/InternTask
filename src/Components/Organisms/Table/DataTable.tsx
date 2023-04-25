@@ -9,7 +9,6 @@ import {
   Paper,
   Checkbox,
   Typography,
-  Box,
   Tooltip,
   IconButton,
 } from "@mui/material";
@@ -48,6 +47,12 @@ const DataTable = (props: Props) => {
     setVisibleRows(rowsSection);
   }, [page, rowsPerPage, rows]);
 
+  useEffect(() => {
+    if (visibleRows.length === 0 && page > 0) {
+      setPage((page) => page - 1);
+    }
+  }, [visibleRows]);
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -70,17 +75,17 @@ const DataTable = (props: Props) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
+      const newSelected = visibleRows.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
   };
 
-  const updateSelections = (ids: string[]) => {
+  const updateSelections = () => {
     const actualSelected = rows
-      .filter((item) => {
-        return ids.indexOf(item.id) === -1;
+      .filter((row) => {
+        return isSelected(row.id);
       })
       .map((item) => item.id);
     setSelected(actualSelected);
@@ -204,7 +209,7 @@ const DataTable = (props: Props) => {
                         onClick={(event) => {
                           event.stopPropagation();
                           dispatch(removeRow(row.id));
-                          updateSelections([row.id]);
+                          updateSelections();
                         }}
                       >
                         {<DeleteIcon color="error" />}
