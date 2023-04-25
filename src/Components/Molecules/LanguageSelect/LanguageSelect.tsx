@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import {
   FormControl,
   InputLabel,
@@ -18,14 +18,10 @@ interface Props extends SelectProps {
 
 const LanguageSelect = (props: Props) => {
   const { label, labelId, id, options } = props;
-  /*const [language, setLanguage] = useState(
-    options.length ? options[0] : "None"
-  );*/
 
   const { i18n } = useTranslation();
 
   const handleChange = useCallback((event: SelectChangeEvent) => {
-    //setLanguage(event.target.value);
     i18n.changeLanguage(event.target.value.toLowerCase());
   }, []);
 

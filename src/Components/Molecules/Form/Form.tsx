@@ -15,7 +15,7 @@ import {
 } from "../../../Features/Row/RowSlice";
 import { useAppSelector } from "../../../Hooks/useSelector";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { User } from "../../../Types/types";
 
 const FIRST_NAME_FIELD = "firstName";
@@ -23,24 +23,15 @@ const AGE_FIELD = "age";
 const CURRICULUM_VITAE_FIELD = "curriculumVitae";
 const DATE_OF_BIRTH = "dateOfBirth";
 
+const DATE_FORMAT_PL = "DD / MM / YYYY";
+const DATE_FORMAT_EN = "MM / DD / YYYY";
+
 interface FormData {
   [FIRST_NAME_FIELD]: string;
   [AGE_FIELD]: number;
   [DATE_OF_BIRTH]: dayjs.Dayjs;
   [CURRICULUM_VITAE_FIELD]: string;
 }
-
-const convertToRow = (data: FormData, id: string = "") => {
-  const user = {
-    id: id || uuidv4(),
-    firstName: data[FIRST_NAME_FIELD],
-    age: data[AGE_FIELD],
-    dateOfBirth: dayjs(data[DATE_OF_BIRTH]).format("MM / DD / YYYY"),
-    curriculumVitae: data[CURRICULUM_VITAE_FIELD],
-  } as User;
-
-  return user;
-};
 
 const StyledForm = styled("form")(() => ({
   backgroundColor: theme.palette.grey[900],
@@ -72,8 +63,26 @@ const schema = yup
 
 const Form = () => {
   const dataIdToEdit = useAppSelector((state) => state.rows.selectedRow);
+  const [dateFormat, setDateFormat] = useState(DATE_FORMAT_PL);
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    switch (i18n.language) {
+      case "en": {
+        setDateFormat(DATE_FORMAT_EN);
+        break;
+      }
+      default: {
+        setDateFormat(DATE_FORMAT_PL);
+      }
+    }
+  }, [i18n.language]);
+
+  useEffect(() => {
+    handleFillFieldsWithDataToEdit();
+  }, [dataIdToEdit]);
 
   const {
     handleSubmit,
@@ -91,21 +100,30 @@ const Form = () => {
     resolver: yupResolver(schema),
   });
 
-  useEffect(() => {
-    handleFillFieldsWithDataToEdit();
-  }, [dataIdToEdit]);
-
-  const dispatch = useAppDispatch();
-
   const handleFillFieldsWithDataToEdit = () => {
     if (dataIdToEdit) {
       setValue(FIRST_NAME_FIELD, dataIdToEdit.firstName);
       setValue(AGE_FIELD, dataIdToEdit.age);
       setValue(CURRICULUM_VITAE_FIELD, dataIdToEdit.curriculumVitae);
-      setValue(DATE_OF_BIRTH, dayjs(dataIdToEdit.dateOfBirth));
+      setValue(
+        DATE_OF_BIRTH,
+        dayjs(dayjs(dataIdToEdit.dateOfBirth).format(dateFormat))
+      );
     } else {
       reset();
     }
+  };
+
+  const convertToRow = (data: FormData, id: string = "") => {
+    const user = {
+      id: id || uuidv4(),
+      firstName: data[FIRST_NAME_FIELD],
+      age: data[AGE_FIELD],
+      dateOfBirth: dayjs(data[DATE_OF_BIRTH]).format(dateFormat),
+      curriculumVitae: data[CURRICULUM_VITAE_FIELD],
+    } as User;
+
+    return user;
   };
 
   const submitAddRow = (data: FormData) => {
@@ -179,6 +197,7 @@ const Form = () => {
           name={DATE_OF_BIRTH}
           render={({ field }) => (
             <DatePicker
+              format={dateFormat}
               label={t("form:dateOfBirth")}
               maxDate={YESTERDAY}
               sx={{ width: "100%" }}
