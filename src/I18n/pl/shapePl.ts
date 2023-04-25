@@ -19,6 +19,7 @@ export const shapePl: Shape = {
       requiredAge: "Wiek jest wymagany",
       requiredInteger: "Wymagana liczba całkowita",
       requiredMoreThan: "Wymagana liczba większa od 0",
+      requiredLessThan: "Wymagana liczba mniejsza od 120",
       requiredDate: "Data urodzenia jest wymagana",
       incorrectDate: "Nie prawidłowa data",
       textTooLong: "Tekst moze zawierac maksymalnie 280 znaków",

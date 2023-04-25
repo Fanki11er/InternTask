@@ -13,6 +13,7 @@ export type Shape = {
       requiredAge: string;
       requiredInteger: string;
       requiredMoreThan: string;
+      requiredLessThan: string;
       requiredDate: string;
       incorrectDate: string;
       textTooLong: string;
