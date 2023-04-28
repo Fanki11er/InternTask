@@ -1,36 +1,6 @@
 import { Grid } from "@mui/material";
 import Form from "../../Components/Molecules/Form/Form";
 import DataTable from "../../Components/Organisms/Table/DataTable";
-import { HeadCell } from "../../Types/TableTypes";
-
-/*const headCells: HeadCell[] = [
-  {
-    id: "name",
-    label: "Imię",
-    minWidth: 170,
-  },
-  {
-    id: "age",
-    numeric: true,
-    label: "Wiek",
-    minWidth: 50,
-  },
-  {
-    id: "dateOfBirth",
-    label: "Data urodzenia",
-    minWidth: 170,
-  },
-
-  {
-    id: "curriculumVitae",
-    label: "Życiorys",
-    ellipsis: true,
-  },
-  {
-    id: "actions",
-    label: "Akcje",
-  },
-];*/
 
 const Main = () => {
   return (
