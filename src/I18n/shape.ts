@@ -36,4 +36,21 @@ export type Shape = {
   notFound: {
     notFound: string;
   };
+
+  dataTable: {
+    header: {
+      name: string;
+      age: string;
+      dateOfBirth: string;
+      curriculumVitae: string;
+      actions: string;
+      delete: string;
+      edit: string;
+    };
+    toolbar: {
+      delete: string;
+      selected: string;
+    };
+    pages: string;
+  };
 };

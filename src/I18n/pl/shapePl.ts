@@ -42,4 +42,21 @@ export const shapePl: Shape = {
   notFound: {
     notFound: "Strona nie znaleziona",
   },
+  dataTable: {
+    header: {
+      name: "Imię",
+      age: "Wiek",
+      dateOfBirth: "Data urodzenia",
+      curriculumVitae: "Życiorys",
+      actions: "Akcje",
+      delete: "Usuń",
+      edit: "Edytuj",
+    },
+
+    toolbar: {
+      delete: "Usuń",
+      selected: "wybranych",
+    },
+    pages: "Wierszy na stronę",
+  },
 };

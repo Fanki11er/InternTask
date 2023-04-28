@@ -38,4 +38,20 @@ export const shapeEn: Shape = {
   notFound: {
     notFound: "Sorry, page not found",
   },
+  dataTable: {
+    header: {
+      name: "Name",
+      age: "Age",
+      dateOfBirth: "Date of birth",
+      curriculumVitae: "Curriculum vitae",
+      actions: "Actions",
+      delete: "Delete",
+      edit: "Edit",
+    },
+    toolbar: {
+      delete: "Delete",
+      selected: "selected",
+    },
+    pages: "Rows per page",
+  },
 };
