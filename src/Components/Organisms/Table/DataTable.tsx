@@ -8,13 +8,11 @@ import {
   TablePagination,
   Paper,
   Checkbox,
-  Typography,
   Tooltip,
   IconButton,
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import { useState, useEffect, useCallback } from "react";
-import { CellOptions, HeadCell } from "../../../Types/TableTypes";
 import TableHeadRow from "../../Molecules/TableHeadRow/TableHeadRow";
 import TableToolbar from "../../Molecules/TableToolbar/TableToolbar";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -23,13 +21,10 @@ import { useAppSelector } from "../../../Hooks/useSelector";
 import { useAppDispatch } from "../../../Hooks/useDispatch";
 import { removeRow, selectRowToEdit } from "../../../Features/Row/RowSlice";
 import { User } from "../../../Types/types";
+import TableDataCell from "../../Molecules/TableDataCell/TabledataCell";
+import { useTranslation } from "react-i18next";
 
-interface Props {
-  headCells: HeadCell[];
-}
-
-const DataTable = (props: Props) => {
-  const { headCells } = props;
+const DataTable = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selected, setSelected] = useState<string[]>([]);
@@ -37,6 +32,7 @@ const DataTable = (props: Props) => {
 
   const rows = useAppSelector((state) => state.rows.rows);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const rowsSection =
@@ -115,46 +111,6 @@ const DataTable = (props: Props) => {
     setSelected(newSelected);
   };
 
-  const renderCells = (row: User, cellOptions: CellOptions[]) => {
-    const values = Object.values(row).splice(1);
-    return cellOptions.map((option, index) => {
-      return index < values.length ? (
-        <TableCell
-          sx={{
-            minWidth: option.minWidth,
-            whiteSpace: "nowrap",
-            maxWidth: 300,
-          }}
-          align={option.numeric ? "right" : "left"}
-          key={`cell-${index}-${row.id}`}
-        >
-          {option.ellipsis ? (
-            <Typography
-              sx={{
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-              }}
-            >
-              {values[index]}
-            </Typography>
-          ) : (
-            values[index]
-          )}
-        </TableCell>
-      ) : null;
-    });
-  };
-
-  const mapRowOptions = (headCells: HeadCell[]) => {
-    return headCells.map((cell) => {
-      return {
-        numeric: cell.numeric,
-        minWidth: cell.minWidth!,
-        ellipsis: cell.ellipsis,
-      };
-    });
-  };
-
   return (
     <TableContainer component={Paper} sx={{ marginTop: 10 }}>
       <Table sx={{ minWidth: 500 }} aria-label="data table">
@@ -162,7 +118,6 @@ const DataTable = (props: Props) => {
           numSelected={selected.length}
           onSelectAllClick={handleSelectAllClick}
           rowCount={visibleRows.length}
-          headCells={headCells}
         />
         <TableBody>
           {visibleRows.map((row, index) => {
@@ -191,32 +146,34 @@ const DataTable = (props: Props) => {
                   />
                 </TableCell>
 
-                {renderCells(row, mapRowOptions(headCells))}
-                {
-                  <TableCell sx={{ width: 100, padding: 1 }} align={"right"}>
-                    <Tooltip title="Edytuj">
-                      <IconButton
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          dispatch(selectRowToEdit(row.id));
-                        }}
-                      >
-                        {<EditNoteIcon color={"info"} />}
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Usuń">
-                      <IconButton
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          dispatch(removeRow(row.id));
-                          updateSelections();
-                        }}
-                      >
-                        {<DeleteIcon color="error" />}
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                }
+                <TableDataCell value={row.firstName} />
+                <TableDataCell value={row.age} />
+                <TableDataCell value={row.dateOfBirth} />
+                <TableDataCell value={row.curriculumVitae} ellipsis />
+
+                <TableCell sx={{ width: 100, padding: 1 }} align={"right"}>
+                  <Tooltip title={t("dataTable:header.edit")}>
+                    <IconButton
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        dispatch(selectRowToEdit(row.id));
+                      }}
+                    >
+                      {<EditNoteIcon color={"info"} />}
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title={t("dataTable:header.delete")}>
+                    <IconButton
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        dispatch(removeRow(row.id));
+                        updateSelections();
+                      }}
+                    >
+                      {<DeleteIcon color="error" />}
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
               </TableRow>
             );
           })}
@@ -236,10 +193,11 @@ const DataTable = (props: Props) => {
               page={page}
               SelectProps={{
                 inputProps: {
-                  "aria-label": "rows per page",
+                  "aria-label": t("dataTable:pages")!,
                 },
                 native: true,
               }}
+              labelRowsPerPage={t("dataTable:pages")}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}

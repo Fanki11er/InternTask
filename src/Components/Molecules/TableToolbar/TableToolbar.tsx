@@ -2,6 +2,7 @@ import { IconButton, Toolbar, Tooltip, Typography, alpha } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAppDispatch } from "../../../Hooks/useDispatch";
 import { removeManyRows } from "../../../Features/Row/RowSlice";
+import { useTranslation } from "react-i18next";
 
 interface TableToolbarProps {
   numSelectedRows: number;
@@ -13,6 +14,7 @@ const TableToolbar = (props: TableToolbarProps) => {
   const { numSelectedRows, selectedRows, handleSelectedChange } = props;
 
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   return (
     <Toolbar
@@ -34,11 +36,11 @@ const TableToolbar = (props: TableToolbarProps) => {
         variant="subtitle1"
         component="div"
       >
-        {numSelectedRows} wybranych
+        {`${numSelectedRows} ${t("dataTable:toolbar.selected")}`}
       </Typography>
 
       {numSelectedRows > 0 && (
-        <Tooltip title="Usuń" sx={{ width: 100 }}>
+        <Tooltip title={t("dataTable:toolbar.delete")} sx={{ width: 100 }}>
           {
             <IconButton
               sx={{ alignSelf: "center" }}
