@@ -15,7 +15,7 @@ import {
 } from "../../../Features/Row/RowSlice";
 import { useAppSelector } from "../../../Hooks/useSelector";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { User } from "../../../Types/types";
 
 const FIRST_NAME_FIELD = "firstName";
@@ -23,8 +23,7 @@ const AGE_FIELD = "age";
 const CURRICULUM_VITAE_FIELD = "curriculumVitae";
 const DATE_OF_BIRTH = "dateOfBirth";
 
-const DATE_FORMAT_PL = "DD / MM / YYYY";
-const DATE_FORMAT_EN = "MM / DD / YYYY";
+const DATE_FORMAT = "MM.DD.YYYY";
 
 interface FormData {
   [FIRST_NAME_FIELD]: string;
@@ -64,22 +63,9 @@ const schema = yup
 
 const Form = () => {
   const dataIdToEdit = useAppSelector((state) => state.rows.selectedRow);
-  const [dateFormat, setDateFormat] = useState(DATE_FORMAT_PL);
 
   const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    switch (i18n.language) {
-      case "en": {
-        setDateFormat(DATE_FORMAT_EN);
-        break;
-      }
-      default: {
-        setDateFormat(DATE_FORMAT_PL);
-      }
-    }
-  }, [i18n.language]);
 
   useEffect(() => {
     handleFillFieldsWithDataToEdit();
@@ -106,10 +92,7 @@ const Form = () => {
       setValue(FIRST_NAME_FIELD, dataIdToEdit.firstName);
       setValue(AGE_FIELD, dataIdToEdit.age);
       setValue(CURRICULUM_VITAE_FIELD, dataIdToEdit.curriculumVitae);
-      setValue(
-        DATE_OF_BIRTH,
-        dayjs(dayjs(dataIdToEdit.dateOfBirth).format(dateFormat))
-      );
+      setValue(DATE_OF_BIRTH, dayjs(dataIdToEdit.dateOfBirth));
     } else {
       reset();
     }
@@ -120,7 +103,7 @@ const Form = () => {
       id: id || uuidv4(),
       firstName: data[FIRST_NAME_FIELD],
       age: data[AGE_FIELD],
-      dateOfBirth: dayjs(data[DATE_OF_BIRTH]).format(dateFormat),
+      dateOfBirth: dayjs(data[DATE_OF_BIRTH]).format(DATE_FORMAT),
       curriculumVitae: data[CURRICULUM_VITAE_FIELD],
     } as User;
 
@@ -198,7 +181,7 @@ const Form = () => {
           name={DATE_OF_BIRTH}
           render={({ field }) => (
             <DatePicker
-              format={dateFormat}
+              format={DATE_FORMAT}
               label={t("form:dateOfBirth")}
               maxDate={YESTERDAY}
               sx={{ width: "100%" }}
